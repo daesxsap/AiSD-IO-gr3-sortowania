@@ -42,6 +42,8 @@
             buttongeneruj = new Button();
             textBoxpokaz = new TextBox();
             buttonsb = new Button();
+            label3 = new Label();
+            label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
@@ -110,7 +112,9 @@
             // 
             // numericUpDown1
             // 
+            numericUpDown1.Enabled = false;
             numericUpDown1.Location = new Point(377, 33);
+            numericUpDown1.Maximum = new decimal(new int[] { 2000000, 0, 0, 0 });
             numericUpDown1.Name = "numericUpDown1";
             numericUpDown1.Size = new Size(120, 23);
             numericUpDown1.TabIndex = 8;
@@ -119,7 +123,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(377, 120);
+            label2.Location = new Point(377, 136);
             label2.Name = "label2";
             label2.Size = new Size(34, 15);
             label2.TabIndex = 10;
@@ -128,14 +132,15 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(459, 120);
+            label1.Location = new Point(422, 136);
             label1.Name = "label1";
-            label1.Size = new Size(38, 15);
+            label1.Size = new Size(16, 15);
             label1.TabIndex = 11;
-            label1.Text = "label1";
+            label1.Text = "...";
             // 
             // buttongeneruj
             // 
+            buttongeneruj.Enabled = false;
             buttongeneruj.Location = new Point(400, 76);
             buttongeneruj.Name = "buttongeneruj";
             buttongeneruj.Size = new Size(75, 23);
@@ -162,11 +167,32 @@
             buttonsb.UseVisualStyleBackColor = true;
             buttonsb.Click += buttonsb_Click;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(422, 112);
+            label3.Name = "label3";
+            label3.Size = new Size(0, 15);
+            label3.TabIndex = 15;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.ForeColor = Color.Green;
+            label4.Location = new Point(378, 112);
+            label4.Name = "label4";
+            label4.Size = new Size(38, 15);
+            label4.TabIndex = 16;
+            label4.Text = "label4";
+            label4.Visible = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(612, 299);
+            Controls.Add(label4);
+            Controls.Add(label3);
             Controls.Add(buttonsb);
             Controls.Add(textBoxpokaz);
             Controls.Add(buttongeneruj);
@@ -203,5 +229,7 @@
         private Button buttongeneruj;
         private TextBox textBoxpokaz;
         private Button buttonsb;
+        private Label label3;
+        private Label label4;
     }
 }
