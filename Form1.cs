@@ -36,7 +36,7 @@ namespace AiSD_IO_gr3_1
             } while (cbz);
 
         }
-        void select_sort(int[] tab)//szukamy najni¿szej i zamieniamy z pierwszym aktualnym indexem
+        void select_sort(int[] tab)//szukamy najnizszej i zamieniamy z pierwszym aktualnym indexem
         {
             int tmp;
             for (int i = 0; i < tab.Length - 1; i++)
@@ -53,13 +53,13 @@ namespace AiSD_IO_gr3_1
             }
         }
 
-        void insert_sort(int[] tab)
-        {
-            for(int i = 1; i < tab.Length; i++)
+        void insert_sort(int[] tab) //ustawiamy klucz na indexie i sprawdzamy czy liczby po lewej sa wieksze                                
+        {                           //jak tak to przesuwamy je w prawo a klucz wsadzamy na dany index
+            for (int i = 1; i < tab.Length; i++)
             {
                 int key = tab[i];
                 int j = i - 1;
-                while (j >= 0&&tab[j] > key)
+                while (j >= 0 && tab[j] > key)
                 {
                     tab[j+1] = tab[j];
                     j--;
@@ -68,6 +68,96 @@ namespace AiSD_IO_gr3_1
             }
         }
 
+        void merge_sort(int[] tab)
+        {
+            if (tab.Length <= 1)
+                return;
+            int srodek = tab.Length / 2;
+            int[] lewo = new int[srodek];
+            int[] prawo = new int[tab.Length-srodek];
+
+            int i = 0; int j = 0;
+            for(int k =0;k<tab.Length;k++)
+            {
+                if (i < srodek)
+                {
+                    lewo[i] = tab[k];
+                    i++;
+                }
+                else
+                {
+                    prawo[j] = tab[k];
+                    j++;
+                }
+            }
+            merge_sort(lewo);
+            merge_sort(prawo);
+            merge(lewo, prawo, tab);
+        }
+
+        void merge(int[] lewo, int[] prawo, int[] tab)
+        {
+            int rozmiarLewo = tab.Length / 2;
+            int rozmiarPrawo = tab.Length - rozmiarLewo;
+            int i = 0, l = 0, r = 0;
+            while (l < rozmiarLewo && r < rozmiarPrawo)
+            {
+                if (lewo[l] < prawo[r])
+                {
+                    tab[i] = lewo[l];
+                    i++;
+                    l++;
+                }
+                else
+                {
+                    tab[i] = prawo[r];
+                    i++;
+                    r++;
+                }
+            }
+            while (l < rozmiarLewo)
+            {
+                 tab[i] = lewo[l];
+                 i++;
+                 l++;
+            }
+            while(r < rozmiarPrawo)
+            {
+                 tab[i] = prawo[r];
+                 i++;
+                 r++;
+            }
+        }
+
+        void quickSort(int[] tab,int start,int end)
+        {
+            if (end <= start)
+                return;
+            int pivot = partycja(tab,start,end);
+            quickSort(tab, start, pivot - 1);
+            quickSort(tab, pivot + 1, end);
+
+        }
+        int partycja(int[] tab,int start,int end)
+        {
+            int pivot = tab[end];
+            int i = start - 1;
+            for(int j = start; j <= end-1; j++)
+            {
+                if (tab[j]< pivot)
+                {
+                    i++;
+                    int temp = tab[i];
+                    tab[i] = tab[j];
+                    tab[j] = temp;
+                }
+            }
+            i++;
+            int temp2 = tab[i];
+            tab[i] = tab[end];
+            tab[end] = temp2;
+            return i;
+        }
 
         private void buttonss_Click(object sender, EventArgs e)
         {
@@ -87,7 +177,7 @@ namespace AiSD_IO_gr3_1
                 select_sort(liczby);
                 stopwatch.Stop();
                 TimeSpan czasTrwania = stopwatch.Elapsed;
-                label1.Text = czasTrwania.TotalMilliseconds + "ms";
+                label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
                 textBoxpokaz.Text = string.Join('_', liczby);
             }
             else
@@ -96,8 +186,8 @@ namespace AiSD_IO_gr3_1
                 stopwatch.Start();
                 select_sort(tablica);
                 stopwatch.Stop();
-                TimeSpan czasTrwania = stopwatch.Elapsed;
-                label1.Text = czasTrwania.TotalMilliseconds + "ms";
+                TimeSpan czasTrwania = stopwatch.Elapsed; 
+                label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
                 textBoxpokaz.Text = string.Join('_', tablica);
                 label4.Text = "";
             }
@@ -122,7 +212,7 @@ namespace AiSD_IO_gr3_1
                 bubble(liczby);
                 stopwatch.Stop();
                 TimeSpan czasTrwania = stopwatch.Elapsed;
-                label1.Text = czasTrwania.TotalMilliseconds + "ms";
+                label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
                 textBoxpokaz.Text = string.Join('_', liczby);
             }
             else
@@ -132,7 +222,7 @@ namespace AiSD_IO_gr3_1
                 bubble(tablica);
                 stopwatch.Stop();
                 TimeSpan czasTrwania = stopwatch.Elapsed;
-                label1.Text = czasTrwania.TotalMilliseconds + "ms";
+                label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
                 textBoxpokaz.Text = string.Join('_', tablica);
                 label4.Text = "";
             }
@@ -156,7 +246,7 @@ namespace AiSD_IO_gr3_1
                 insert_sort(liczby);
                 stopwatch.Stop();
                 TimeSpan czasTrwania = stopwatch.Elapsed;
-                label1.Text = czasTrwania.TotalMilliseconds + "ms";
+                label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
                 textBoxpokaz.Text = string.Join('_', liczby);
             }
             else
@@ -166,7 +256,7 @@ namespace AiSD_IO_gr3_1
                 insert_sort(tablica);
                 stopwatch.Stop();
                 TimeSpan czasTrwania = stopwatch.Elapsed;
-                label1.Text = czasTrwania.TotalMilliseconds + "ms";
+                label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
                 textBoxpokaz.Text = string.Join('_', tablica);
                 label4.Text = "";
             }
@@ -174,12 +264,70 @@ namespace AiSD_IO_gr3_1
 
         private void buttonsm_Click(object sender, EventArgs e)
         {
-
+            if (!checkbox.Checked)
+            {
+                string[] liczbyStr = textBoxwpisz.Text.Split('_');
+                int[] liczby = new int[liczbyStr.Length];
+                for (int i = 0; i < liczbyStr.Length; i++)
+                {
+                    if (int.TryParse(liczbyStr[i], out int val))
+                    {
+                        liczby[i] = val;
+                    }
+                }
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                merge_sort(liczby);
+                stopwatch.Stop();
+                TimeSpan czasTrwania = stopwatch.Elapsed;
+                label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
+                textBoxpokaz.Text = string.Join('_', liczby);
+            }
+            else
+            {
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                merge_sort(tablica);
+                stopwatch.Stop();
+                TimeSpan czasTrwania = stopwatch.Elapsed;
+                label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
+                textBoxpokaz.Text = string.Join('_', tablica);
+                label4.Text = "";
+            }
         }
 
         private void buttonsq_Click(object sender, EventArgs e)
         {
-
+            if (!checkbox.Checked)
+            {
+                string[] liczbyStr = textBoxwpisz.Text.Split('_');
+                int[] liczby = new int[liczbyStr.Length];
+                for (int i = 0; i < liczbyStr.Length; i++)
+                {
+                    if (int.TryParse(liczbyStr[i], out int val))
+                    {
+                        liczby[i] = val;
+                    }
+                }
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                quickSort(liczby,0,liczby.Length-1);
+                stopwatch.Stop();
+                TimeSpan czasTrwania = stopwatch.Elapsed;
+                label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
+                textBoxpokaz.Text = string.Join('_', liczby);
+            }
+            else
+            {
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                quickSort(tablica,0,tablica.Length-1);
+                stopwatch.Stop();
+                TimeSpan czasTrwania = stopwatch.Elapsed;
+                label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
+                textBoxpokaz.Text = string.Join('_', tablica);
+                label4.Text = "";
+            }
         }
 
         private void textBoxwpisz_TextChanged(object sender, EventArgs e)
