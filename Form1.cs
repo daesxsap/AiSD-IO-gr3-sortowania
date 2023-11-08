@@ -14,7 +14,7 @@ namespace AiSD_IO_gr3_1
         {
 
         }
-        void bubble(int[] tab)//
+        void bubbleSort(int[] tab)//
         {
             int tmp; bool cbz = false;
 
@@ -36,7 +36,7 @@ namespace AiSD_IO_gr3_1
             } while (cbz);
 
         }
-        void select_sort(int[] tab)//szukamy najnizszej i zamieniamy z pierwszym aktualnym indexem
+        void selectSort(int[] tab)//szukamy najnizszej i zamieniamy z pierwszym aktualnym indexem
         {
             int tmp;
             for (int i = 0; i < tab.Length - 1; i++)
@@ -53,7 +53,7 @@ namespace AiSD_IO_gr3_1
             }
         }
 
-        void insert_sort(int[] tab) //ustawiamy klucz na indexie i sprawdzamy czy liczby po lewej sa wieksze                                
+        void insertSort(int[] tab) //ustawiamy klucz na indexie i sprawdzamy czy liczby po lewej sa wieksze                                
         {                           //jak tak to przesuwamy je w prawo a klucz wsadzamy na dany index
             for (int i = 1; i < tab.Length; i++)
             {
@@ -68,16 +68,18 @@ namespace AiSD_IO_gr3_1
             }
         }
 
-        void merge_sort(int[] tab)
-        {
-            if (tab.Length <= 1)
-                return;
-            int srodek = tab.Length / 2;
-            int[] lewo = new int[srodek];
-            int[] prawo = new int[tab.Length-srodek];
-
-            int i = 0; int j = 0;
-            for(int k =0;k<tab.Length;k++)
+        void mergeSort(int[] tab)       //                 [2][4][1][6][8][5][3][7]
+        {                                //                       |               
+            if (tab.Length <= 1)         //                  [2][4][1][6]
+                return;                  //                    |      
+            int srodek = tab.Length / 2; //                  [2][4]
+                                         //                    |
+                                         //                   [2]
+            int[] lewo = new int[srodek];            // jak rozwali cala lewa strone wraca do gory do [2][4] i 
+            int[] prawo = new int[tab.Length-srodek];// rozwala prawa znowu wraca i sortuje [2][4] i wraca do 
+                                                     // [2][4][1][6] i pozniej to samo rozwala cala lewa [1][6]
+            int i = 0; int j = 0;                    // zostaje sama [1] wraca rozwala prawo zostaje [6] wraca 
+            for(int k =0;k<tab.Length;k++)           // sortuje [1][6] wraca sortuje [2][4][1][6] i idzie na prawo
             {
                 if (i < srodek)
                 {
@@ -90,8 +92,8 @@ namespace AiSD_IO_gr3_1
                     j++;
                 }
             }
-            merge_sort(lewo);
-            merge_sort(prawo);
+            mergeSort(lewo);
+            mergeSort(prawo);
             merge(lewo, prawo, tab);
         }
 
@@ -129,16 +131,16 @@ namespace AiSD_IO_gr3_1
             }
         }
 
-        void quickSort(int[] tab,int start,int end)
-        {
-            if (end <= start)
-                return;
-            int pivot = partycja(tab,start,end);
+        void quickSort(int[] tab,int start,int end) //bierze ostatnia liczbe jako pivot i porownuje ze wszystkimi
+        {                                           // mniejsze od pivota wsadza po lewo wieksze po prawo od niego
+            if (end <= start)                       //i robi tak poki nie zostana 2 liczby po lewej schemat podobny
+                return;                             //do merga rozwalasz lewo pozniej wracasz i prawo             
+            int pivot = podzial(tab,start,end);                       
             quickSort(tab, start, pivot - 1);
             quickSort(tab, pivot + 1, end);
 
         }
-        int partycja(int[] tab,int start,int end)
+        int podzial(int[] tab,int start,int end)
         {
             int pivot = tab[end];
             int i = start - 1;
@@ -174,7 +176,7 @@ namespace AiSD_IO_gr3_1
                 }
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                select_sort(liczby);
+                selectSort(liczby);
                 stopwatch.Stop();
                 TimeSpan czasTrwania = stopwatch.Elapsed;
                 label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
@@ -184,7 +186,7 @@ namespace AiSD_IO_gr3_1
             {
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                select_sort(tablica);
+                selectSort(tablica);
                 stopwatch.Stop();
                 TimeSpan czasTrwania = stopwatch.Elapsed; 
                 label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
@@ -209,7 +211,7 @@ namespace AiSD_IO_gr3_1
                 }
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                bubble(liczby);
+                bubbleSort(liczby);
                 stopwatch.Stop();
                 TimeSpan czasTrwania = stopwatch.Elapsed;
                 label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
@@ -219,7 +221,7 @@ namespace AiSD_IO_gr3_1
             {
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                bubble(tablica);
+                bubbleSort(tablica);
                 stopwatch.Stop();
                 TimeSpan czasTrwania = stopwatch.Elapsed;
                 label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
@@ -243,7 +245,7 @@ namespace AiSD_IO_gr3_1
                 }
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                insert_sort(liczby);
+                insertSort(liczby);
                 stopwatch.Stop();
                 TimeSpan czasTrwania = stopwatch.Elapsed;
                 label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
@@ -253,7 +255,7 @@ namespace AiSD_IO_gr3_1
             {
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                insert_sort(tablica);
+                insertSort(tablica);
                 stopwatch.Stop();
                 TimeSpan czasTrwania = stopwatch.Elapsed;
                 label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
@@ -277,7 +279,7 @@ namespace AiSD_IO_gr3_1
                 }
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                merge_sort(liczby);
+                mergeSort(liczby);
                 stopwatch.Stop();
                 TimeSpan czasTrwania = stopwatch.Elapsed;
                 label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
@@ -287,7 +289,7 @@ namespace AiSD_IO_gr3_1
             {
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                merge_sort(tablica);
+                mergeSort(tablica);
                 stopwatch.Stop();
                 TimeSpan czasTrwania = stopwatch.Elapsed;
                 label1.Text = czasTrwania.TotalSeconds.ToString("F6") + " s";
@@ -359,7 +361,7 @@ namespace AiSD_IO_gr3_1
             tablica = new int[n];
             for (int i = 0; i < n; i++)
             {
-                tablica[i] = random.Next(0, 100);
+                tablica[i] = random.Next();
             }
             label4.Text = "Wygenerowano Liczby";
             label4.Visible = true;
